@@ -2,16 +2,16 @@
 $db = parse_url(getenv("DATABASE_URL"));
 
 $pdo = new PDO("pgsql:" . sprintf(
-    "host=%s;port=%s;user=%s;password=%s;dbname=%s",
-    $db["host"],
-    $db["port"],
-    $db["user"],
-    $db["pass"],
-    ltrim($db["path"], "/")
+  "host=%s;port=%s;user=%s;password=%s;dbname=%s",
+  $db["host"],
+  $db["port"],
+  $db["user"],
+  $db["pass"],
+  ltrim($db["path"], "/")
 ));
 $displayAll = $pdo->prepare("select * from video");
 $displayAll->execute();
-echo var_dump($displayAll->fetchAll());
+$videos = json_encode($displayAll->fetchAll());
 ?>
 <!doctype html>
 <html>
@@ -21,14 +21,13 @@ echo var_dump($displayAll->fetchAll());
   <script src="https://www.gstatic.com/firebasejs/7.15.5/firebase.js"></script>
   <script src='https://cdn.firebase.com/js/client/2.2.1/firebase.js'></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script src="firebase.js">// fire base page inclusion</script>
+  <script src="firebase.js">
+    // fire base page inclusion
+  </script>
   <script src="tutorial.js"></script>
   <script src="lemon.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
-    integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
-    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
-    crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
   <style>
     iframe#tutorial {
       width: 860px;
@@ -40,8 +39,8 @@ echo var_dump($displayAll->fetchAll());
     }
   </style>
   <script>
-    $(document).ready(function () {
-      $(" .sidebar a").click(function (e) {
+    $(document).ready(function() {
+      $(" .sidebar a").click(function(e) {
         e.preventDefault();
         if ($(this).attr("href") !== "#") {
           if ($(this).attr("href") !== "https://drive.google.com/file/d/1pthvZ42QEW-OTojFdkq9D9SFnQidfm_l/preview")
@@ -53,6 +52,7 @@ echo var_dump($displayAll->fetchAll());
         //$("#tutorial").attr("src",$(this).attr("href"));
       })
     });
+    let videos = <?= $videos ?>
   </script>
 </head>
 
@@ -60,8 +60,7 @@ echo var_dump($displayAll->fetchAll());
   <section>
     <nav class="navbar navbar-expand-lg navbar-light bg-dark">
       <a class="navbar-brand" href="#" style="color:#FFC312;font-size:20px">Codezilla</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
@@ -108,9 +107,7 @@ echo var_dump($displayAll->fetchAll());
 
     <!-- Page content -->
     <div class="content">
-      <iframe id="tutorial" src="https://www.youtube.com/embed/wJLftmfHVs8?rel=0&showinfo=0" frameborder="0"
-        webkitAllowFullScreen mozallowfullscreen allowFullScreen frameborder="0"
-        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+      <iframe id="tutorial" src="https://www.youtube.com/embed/wJLftmfHVs8?rel=0&showinfo=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
       </iframe>
       <div style="width:100%;text-align:center;
 font-size:25px;padding-top:2%;padding-bottom:1%;border:3px solid black;border-top-right-radius:50%;
@@ -120,8 +117,7 @@ border-bottom-left-radius:50%;font-family:Didot">
     </div>
     <div class="lsidebar" style="padding:1% 1%">
       <div>
-        <a class="active" href="#home" style="text-align:center"><span
-            style="color:#FFC312;font-size:20px">Notification</span></a>
+        <a class="active" href="#home" style="text-align:center"><span style="color:#FFC312;font-size:20px">Notification</span></a>
         <marquee behavior="scroll" class="moving-body" direction="up" scrollamount="4" style="height:150px;">
           <p style="text-align:center"><img src="https://img.icons8.com/fluent/48/000000/code.png" />Online javascript
             code editor coming soon...</p>
@@ -136,19 +132,16 @@ border-bottom-left-radius:50%;font-family:Didot">
             check notice board regularily.</p>
           <hr />
         </marquee>
-        <iframe id="content"
-          src="https://docs.google.com/forms/d/e/1FAIpQLSezFTbKu1e_0BYcBPH2UAAmxVKXauc177fvPplhW0hO9D7UHg/viewform?embedded=true"
-          width="315" height="400" frameborder="0" marginheight="0" marginwidth="0"
-          style="overflow-x:hidden;">Loading…</iframe>
+        <iframe id="content" src="https://docs.google.com/forms/d/e/1FAIpQLSezFTbKu1e_0BYcBPH2UAAmxVKXauc177fvPplhW0hO9D7UHg/viewform?embedded=true" width="315" height="400" frameborder="0" marginheight="0" marginwidth="0" style="overflow-x:hidden;">Loading…</iframe>
       </div>
     </div>
     </div>
   </section>
 </body>
 <script>
-  $(document).ready(function (e) {
+  $(document).ready(function(e) {
     var temp = null;
-    firebase.auth().onAuthStateChanged(function (user) {
+    firebase.auth().onAuthStateChanged(function(user) {
       var uid = null;
       var email = null;
       if (user) {
@@ -158,7 +151,8 @@ border-bottom-left-radius:50%;font-family:Didot">
         window.location.replace("index.php");
       }
     })
-    window.setInterval(function () {
+
+    window.setInterval(function() {
       var date = new Date().getHours();
       if (date < 12 && date > 0) {
         document.getElementById("plot").src = "https://img.icons8.com/doodle/48/000000/sun--v1.png";
@@ -179,8 +173,6 @@ border-bottom-left-radius:50%;font-family:Didot">
 
     }, 1000);
   });
-
-
 </script>
 
 </html
