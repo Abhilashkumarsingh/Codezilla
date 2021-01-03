@@ -1,2 +1,0 @@
-# Codezilla
-javascript tutorial websites
