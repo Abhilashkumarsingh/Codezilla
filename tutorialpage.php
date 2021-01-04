@@ -11,7 +11,7 @@ $pdo = new PDO("pgsql:" . sprintf(
 ));
 $displayAll = $pdo->prepare("select * from video");
 $displayAll->execute();
-$videos = json_encode($displayAll->fetchAll());
+$videos = json_encode($displayAll->fetchAll(PDO::FETCH_ASSOC));
 ?>
 <!doctype html>
 <html>
