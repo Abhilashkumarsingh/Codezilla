@@ -1,4 +1,5 @@
 <?php
+putenv("DATABASE_URL=postgres://kdckazomrgiobn:d46f5d4d598beef773b4229be5128dc9cc6d666a8975edf4e16b4dce5ca64e26@ec2-35-169-184-61.compute-1.amazonaws.com:5432/dbt8rsv4cu410p");
 $db = parse_url(getenv("DATABASE_URL"));
 
 $pdo = new PDO("pgsql:" . sprintf(
@@ -12,6 +13,7 @@ $pdo = new PDO("pgsql:" . sprintf(
 $displayAll = $pdo->prepare("select * from video");
 $displayAll->execute();
 $videos = json_encode($displayAll->fetchAll(PDO::FETCH_ASSOC));
+
 ?>
 <!doctype html>
 <html>
@@ -26,8 +28,8 @@ $videos = json_encode($displayAll->fetchAll(PDO::FETCH_ASSOC));
   </script>
   <script src="tutorial.js"></script>
   <script src="lemon.js"></script>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
   <style>
     iframe#tutorial {
       width: 860px;
@@ -76,6 +78,12 @@ $videos = json_encode($displayAll->fetchAll(PDO::FETCH_ASSOC));
       </div>
     </nav>
   </section>
+  <div class='container'>
+    <div class='form-floating'>
+      <input type="text" name="search_key" class='form-control' placeholder="Search Here">
+      <label>Search Here</label>
+    </div>
+  </div>
   <section style="width:90%;margin:0px auto">
     <!-- The sidebar -->
     <div class="sidebar">
@@ -107,11 +115,8 @@ $videos = json_encode($displayAll->fetchAll(PDO::FETCH_ASSOC));
 
     <!-- Page content -->
     <div class="content">
-      <iframe id="tutorial" src="https://www.youtube.com/embed/wJLftmfHVs8?rel=0&showinfo=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-      </iframe>
-      <div style="width:100%;text-align:center;
-font-size:25px;padding-top:2%;padding-bottom:1%;border:3px solid black;border-top-right-radius:50%;
-border-bottom-left-radius:50%;font-family:Didot">
+      <iframe id="tutorial_video" src="https://www.youtube.com/embed/wJLftmfHVs8?rel=0&showinfo=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      <div style="width:100%;text-align:center;font-size:25px;padding-top:2%;padding-bottom:1%;border:3px solid black;border-top-right-radius:50%;border-bottom-left-radius:50%;font-family:Didot">
         <p id="chapter">Smells like smartness. Start learning now.</p>
       </div>
     </div>
@@ -152,26 +157,26 @@ border-bottom-left-radius:50%;font-family:Didot">
       }
     })
 
-    window.setInterval(function() {
-      var date = new Date().getHours();
-      if (date < 12 && date > 0) {
-        document.getElementById("plot").src = "https://img.icons8.com/doodle/48/000000/sun--v1.png";
-        document.getElementById("intro").innerText = "Good Morning";
-      }
-      if (date >= 12 && date < 18) {
-        document.getElementById("plot").src = "https://img.icons8.com/doodle/48/000000/sun--v1.png";
-        document.getElementById("intro").innerText = "Good Afternoon";
-      }
-      if (date >= 18 && date < 20) {
-        document.getElementById("plot").src = "https://img.icons8.com/fluent/48/000000/sunset.png";
-        document.getElementById("intro").innerText = "Good Evening";
-      }
-      if (date >= 21 && date < 24) {
-        document.getElementById("plot").src = "https://img.icons8.com/dotty/48/000000/moon.png";
-        document.getElementById("intro").innerText = "Good Night";
-      }
+    // window.setInterval(function() {
+    //   var date = new Date().getHours();
+    //   if (date < 12 && date > 0) {
+    //     document.getElementById("plot").src = "https://img.icons8.com/doodle/48/000000/sun--v1.png";
+    //     document.getElementById("intro").innerText = "Good Morning";
+    //   }
+    //   if (date >= 12 && date < 18) {
+    //     document.getElementById("plot").src = "https://img.icons8.com/doodle/48/000000/sun--v1.png";
+    //     document.getElementById("intro").innerText = "Good Afternoon";
+    //   }
+    //   if (date >= 18 && date < 20) {
+    //     document.getElementById("plot").src = "https://img.icons8.com/fluent/48/000000/sunset.png";
+    //     document.getElementById("intro").innerText = "Good Evening";
+    //   }
+    //   if (date >= 21 && date < 24) {
+    //     document.getElementById("plot").src = "https://img.icons8.com/dotty/48/000000/moon.png";
+    //     document.getElementById("intro").innerText = "Good Night";
+    //   }
 
-    }, 1000);
+    // }, 1000);
   });
 </script>
 
