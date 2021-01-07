@@ -57,6 +57,7 @@ $all_subjects = json_encode($all_subjects->fetchAll(PDO::FETCH_COLUMN));
     }
 
     body {
+      height: 100%;
       background-image: url(background1.jpg);
       background-size: 100%;
       background-position: center;
