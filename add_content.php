@@ -13,13 +13,14 @@ if (isset($_POST['submit'])) {
 
     $subjectExists = $pdo->prepare("select * from subject where subject_name=?");
     $addSubject = $pdo->prepare("insert into subject(subject_name) values(?)");
-    $addVideo = $pdo->prepare("insert into video(video_name,video_link,notes_link,parent_subject) values(?,?,?,?)");
+    $addVideo = $pdo->prepare("insert into video(video_name,video_link,notes_link,parent_subject,discription) values(?,?,?,?,?)");
 
 
     $video_name = $_POST['video_name'];
     $video_link = $_POST['video_link'];
     $subject_name = strtolower($_POST['subject_name']);
     $notes_link = $_POST['note_link'];
+    $discription = $_POST['video_discription'];
 
     $subjectExists->execute([$subject_name]);
     //if subject exists,get its id
@@ -32,7 +33,7 @@ if (isset($_POST['submit'])) {
     }
 
     $success = false;
-    $addVideo->execute([$video_name, $video_link, $notes_link, $parent_subject]);
+    $addVideo->execute([$video_name, $video_link, $notes_link, $parent_subject,$discription]);
 
     if ($addVideo->rowCount())
         $success = true;
@@ -124,6 +125,14 @@ if (isset($_POST['submit'])) {
                     <div class='form-floating'>
                         <input type="url" class='form-control border border-dark' name='note_link' placeholder="Link Notes" required>
                         <label for="">Link Notes</label>
+                    </div>
+                </div>
+            </div>
+            <div class='row mb-3'>
+                <div class='col'>
+                    <div class="form-group">
+                        <label for="exampleFormControlTextarea1">Discribe The Content</label>
+                        <textarea class="form-control border border-dark" id="exampleFormControlTextarea1" rows="3" name='video_discription'></textarea>
                     </div>
                 </div>
             </div>

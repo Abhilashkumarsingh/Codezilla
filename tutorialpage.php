@@ -52,8 +52,17 @@ $all_subjects = json_encode($all_subjects->fetchAll(PDO::FETCH_COLUMN));
     }
 
     .result:hover {
-      background-color: lightcoral;
-      transition-duration: 0.2s;
+      background-color: lightcoral !important;
+      transition-duration: 0.2s !important;
+    }
+
+    body {
+      background-image: url(background1.jpg);
+      background-size: 100%;
+      background-position: center;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: cover;
     }
   </style>
 </head>
@@ -79,48 +88,51 @@ $all_subjects = json_encode($all_subjects->fetchAll(PDO::FETCH_COLUMN));
     </nav>
   </section>
 
-  <div class='container my-3'>
+  <div class='container p-0 my-3'>
     <form action="tutorialpage.php" method='GET'>
       <div class='form-floating'>
-        <input type="text" name="search_key" class='form-control border border-dark' id='search_key' placeholder="Search Here" oninput="updateSearchResults()" autocomplete="off">
+        <input type="text" name="search_key" class='form-control rounded-0 border border-dark' id='search_key' placeholder="Search Here" oninput="updateSearchResults()" autocomplete="off">
         <label>Search Here</label>
       </div>
-      <div class='border border-dark' id='search-results'>
+      <div class='border border-dark bg-white p-1' id='search-results'>
 
       </div>
     </form>
   </div>
   <?php if ($content) { ?>
-    <div class='container border border-dark'>
+    <div class='container border-dark'>
 
-      <p class=''>The Main Content Pane</p>
 
       <div class='row'>
         <!-- The sidebar -->
 
-        <div class="col-sm-2 border border-dark  p-2" id='leftbar'>
-          <p class=''>Left Sidebar</p>
-          <?php foreach ($videos as $x) {
-            $video_name = $x['video_name'];
-            $video_link = $x['video_link'];
-            $notes_link = $x['notes_link'];
-            $video_id = $x['video_id'];
-          ?>
-
-            <div class='container border border-dark result my-2' onclick="updateContent('<?= $video_id ?>','<?= addslashes($video_name) ?>','<?= addslashes($video_link) ?>','<?= addslashes($notes_link) ?>')"><?= $video_name ?></div>
-          <?php } ?>
+        <div class="col-sm-3  border-dark  p-2" id='leftbar'>
+          <div class="rounded bg-white h-100 p-1 overflow-hidden">
+            <h2 class='bg-white  border-bottom rounded p-2 text-capitalize'><?= $_GET['search_key'] ?></h2>
+            <?php foreach ($videos as $x) {
+              $video_name = $x['video_name'];
+              $video_link = $x['video_link'];
+              $notes_link = $x['notes_link'];
+              $video_id = $x['video_id'];
+              $discription = $x['discription']
+            ?>
+              <div class='container  border border-dark p-2  result my-2' onclick="updateContent('<?= $video_id ?>','<?= addslashes($video_name) ?>','<?= addslashes($video_link) ?>','<?= addslashes($notes_link) ?>','<?=addslashes($discription)?>')"><?= $video_name ?></div>
+            <?php } ?>
+          </div>
         </div>
 
         <!-- Page content -->
-        <div class="col-sm-10 border border-dark ">
-          <!-- <p class='display-1' id='video_title'>Middle Content</p> -->
-          <div class="ratio ratio-16x9">
-            <iframe id='video_link' src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowfullscreen></iframe>
+        <div class="col-sm-9  p-2 border-dark">
+          <div class='bg-white p-2'>
+            <div class="ratio ratio-16x9">
+              <iframe id='video_link' src="https://www.youtube.com/embed/zpOULjyy-n8?rel=0" title="YouTube video" allowfullscreen></iframe>
+            </div>
+            <div class=" bg-white" id='bottombar'>
+              <h1 id='video_title'></h1>
+              <p id='disc'></p>
+              <a href="" class='btn btn-primary' id='notes'>Notes</a>
+            </div>
           </div>
-          <!-- <iframe id="video_link" src="https://www.youtube.com/embed/wJLftmfHVs8?rel=0&showinfo=0" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> -->
-          <!-- <div class="border border-dark " id='rightbar'>
-
-          </div> -->
         </div>
 
 
@@ -159,7 +171,7 @@ $all_subjects = json_encode($all_subjects->fetchAll(PDO::FETCH_COLUMN));
 
     for (let i = 0; i < all_subjects.length; i++) {
       if (re.test(all_subjects[i]))
-        search_results_box.append(`<div class='container-fluid p-2 m-2 border border-dark result ' onclick='submitForm("${all_subjects[i]}")'>${all_subjects[i]}</div>`)
+        search_results_box.append(`<div class=' p-2 my-2 border border-dark result ' onclick='submitForm("${all_subjects[i]}")'>${all_subjects[i]}</div>`)
     }
   }
 
@@ -168,10 +180,12 @@ $all_subjects = json_encode($all_subjects->fetchAll(PDO::FETCH_COLUMN));
     $('form')[0].submit();
   }
 
-  function updateContent(id, name, link, notes) {
+  function updateContent(id, name, link, notes,disc) {
     console.log(id, name, link, notes);
     $('#video_link')[0].src = link;
-    $('#rightbar').append(`<a class='btn btn-alert' href='${notes}' >notes</a>`)
+    $('#notes')[0].href=notes;
+    $('#video_title')[0].innerHTML = name;
+    $('#disc')[0].innerHTML=disc;
   }
 
   // window.setInterval(function() {
