@@ -43,7 +43,7 @@
       </li>
 	<li class="nav-item active">
         <a class="nav-link" href="http://localhost/postman/signup.php"  style="border:1px solid #FFC312;
-		border-radius:2%;color:#FFC312;padding:3px;font-size:15px">00:00:00<span class="sr-only">(current)</span></a>
+		border-radius:2%;color:#FFC312;padding:3%;font-size:15px;margin-left:5px">POSTMAN<span class="sr-only">(current)</span></a>
       </li>
 	</ul>
   </div>
